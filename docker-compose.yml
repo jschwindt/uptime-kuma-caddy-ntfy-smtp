@@ -1,0 +1,93 @@
+version: "3.9"
+
+x-server-tune: &server-tune
+  restart: unless-stopped
+  sysctls:
+    - net.core.somaxconn=65535
+  ulimits:
+    nproc: 65535
+    nofile: 500000
+
+services:
+  kuma:
+    << : *server-tune
+    container_name: kuma
+    image: louislam/uptime-kuma
+    networks:
+      - uptime-net
+    volumes:
+      - "./data/uptime-kuma:/app/data"
+    expose:
+      - '3001'
+
+  ntfy:
+    << : *server-tune
+    image: binwiederhier/ntfy
+    container_name: ntfy
+    command:
+      - serve
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+      - NTFY_BASE_URL=https://ntfy.schwindt.org
+      - NTFY_LISTEN_HTTP=:8000
+      - NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
+      - NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
+      - NTFY_AUTH_DEFAULT_ACCESS=deny-all
+      - NTFY_BEHIND_PROXY=true
+      - NTFY_ATTACHMENT_CACHE_DIR=/var/lib/ntfy/attachments
+      - NTFY_ENABLE_LOGIN=true
+    volumes:
+      - ./data/ntfy:/var/lib/ntfy
+    networks:
+      - uptime-net
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+
+  caddy:
+    << : *server-tune
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caddy
+    restart: unless-stopped
+    networks:
+      - uptime-net
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - ACME_AGREE=true
+    env_file:
+      - .env
+
+  smtp:
+    image: mwader/postfix-relay
+    container_name: postfix
+    networks:
+      - uptime-net
+    ports:
+      - 25:25
+    restart: always
+    environment:
+      - POSTFIX_myhostname=relayhost
+      - POSTFIX_smtp_sasl_auth_enable=yes
+      - POSTFIX_smtp_sasl_security_options=noanonymous
+      - POSTFIX_smtp_tls_security_level=encrypt
+      - POSTFIX_header_size_limit=4096000
+      - POSTFIX_smtp_sasl_password_maps=hash:/etc/postfix/smtp_sasl_password_maps
+      - POSTFIX_transport_maps=hash:/etc/postfix/transport_maps
+    env_file:
+      - .env
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  uptime-net:

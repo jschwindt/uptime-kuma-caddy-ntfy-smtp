@@ -1,0 +1,15 @@
+ntfy.schwindt.org {
+  tls juan@schwindt.org {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+
+  reverse_proxy ntfy:8000
+}
+
+uptime.schwindt.org {
+  tls juan@schwindt.org {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+
+  reverse_proxy kuma:3001
+}
