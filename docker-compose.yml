@@ -27,8 +27,6 @@ services:
     command:
       - serve
     environment:
-      - TZ=America/Argentina/Buenos_Aires
-      - NTFY_BASE_URL=https://ntfy.schwindt.org
       - NTFY_LISTEN_HTTP=:8000
       - NTFY_CACHE_FILE=/var/lib/ntfy/cache.db
       - NTFY_AUTH_FILE=/var/lib/ntfy/auth.db
