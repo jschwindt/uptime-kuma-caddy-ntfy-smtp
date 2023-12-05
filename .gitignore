@@ -1,2 +1,6 @@
-data/
 .env
+/data/uptime-kuma/*
+/data/ntfy/*
+!/data/uptime-kuma/.keep
+!/data/ntfy/.keep
+
