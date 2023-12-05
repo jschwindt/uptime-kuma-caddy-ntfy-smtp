@@ -27,8 +27,6 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
     ```bash
     cp .env.example .env
     cp Caddyfile.example Caddyfile
-    nano .env
-    nano Caddyfile
     ```
     The `Caddyfile` needs to be configured with your domain name and email address twice: once for the `uptime` service and once for the `ntfy` service.
 
@@ -46,6 +44,8 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
     ```bash
     docker-compose up -d
     ```
+    The first time you run this command, it will take a while to download the images and build the containers.
+
     Check the logs to see if everything is working:
 
     ```bash
