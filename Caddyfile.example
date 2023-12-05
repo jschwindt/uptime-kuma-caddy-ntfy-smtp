@@ -1,13 +1,13 @@
-ntfy.schwindt.org {
-  tls juan@schwindt.org {
+ntfy.example.com {
+  tls your@email.com {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
   }
 
   reverse_proxy ntfy:8000
 }
 
-uptime.schwindt.org {
-  tls juan@schwindt.org {
+uptime.example.com {
+  tls your@email.com {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
   }
 

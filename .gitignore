@@ -1,4 +1,6 @@
 .env
+Caddyfile
+
 /data/uptime-kuma/*
 /data/ntfy/*
 !/data/uptime-kuma/.keep
