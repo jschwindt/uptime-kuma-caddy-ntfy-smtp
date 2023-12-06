@@ -10,7 +10,7 @@ x-server-tune: &server-tune
 
 services:
   kuma:
-    << : *server-tune
+    <<: *server-tune
     container_name: kuma
     image: louislam/uptime-kuma
     networks:
@@ -18,10 +18,10 @@ services:
     volumes:
       - "./data/uptime-kuma:/app/data"
     expose:
-      - '3001'
+      - "3001"
 
   ntfy:
-    << : *server-tune
+    <<: *server-tune
     image: binwiederhier/ntfy
     container_name: ntfy
     command:
@@ -45,7 +45,7 @@ services:
       - 8000:8000
 
   caddy:
-    << : *server-tune
+    <<: *server-tune
     build:
       context: .
       dockerfile: Dockerfile
@@ -66,21 +66,13 @@ services:
       - .env
 
   smtp:
-    image: mwader/postfix-relay
-    container_name: postfix
+    image: bytemark/smtp
+    container_name: smtp
+    restart: unless-stopped
     networks:
       - uptime-net
     ports:
       - 25:25
-    restart: unless-stopped
-    environment:
-      - POSTFIX_myhostname=relayhost
-      - POSTFIX_smtp_sasl_auth_enable=yes
-      - POSTFIX_smtp_sasl_security_options=noanonymous
-      - POSTFIX_smtp_tls_security_level=encrypt
-      - POSTFIX_header_size_limit=4096000
-      - POSTFIX_smtp_sasl_password_maps=hash:/etc/postfix/smtp_sasl_password_maps
-      - POSTFIX_transport_maps=hash:/etc/postfix/transport_maps
     env_file:
       - .env
 

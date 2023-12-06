@@ -19,8 +19,8 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
 1. Clone this repository:
 
     ```bash
-    git clone git@github.com:jschwindt/uptime-kuma-caddy-ntfy-postfix.git
-    cd uptime-kuma-caddy-ntfy-postfix
+    git clone git@github.com:jschwindt/uptime-kuma-caddy-ntfy-smtp.git
+    cd uptime-kuma-caddy-ntfy-smtp
     ```
 2. Copy the `.env.example` file to `.env`, `Caddydile.example` to `Caddyfile`, and fill in the required values:
 
@@ -36,8 +36,7 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
     | --- | --- |
     | `NTFY_BASE_URL` | Your domain name for the `ntfy` service. |
     | `CLOUDFLARE_API_TOKEN` | The token for Caddy to handle DNS changes. Get it [here](https://dash.cloudflare.com/profile/api-tokens) with `DNS:Edit` permissions. |
-    | `POSTMAP_smtp_sasl_password_maps` | The password for your SMTP account. The example given is for the Sendgrid service. |
-    | `POSTMAP_transport_maps` | Set the SMTP host and port accordingly |
+    | `RELAY_xxxx` | The config for your SMTP service provider account. The example given is for the Sendgrid service. |
 
 3. Start the containers:
 
