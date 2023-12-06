@@ -1,13 +1,13 @@
-ntfy.example.com {
-  tls your@email.com {
+{$NTFY_DOMAIN} {
+  tls {$CLOUDFLARE_EMAIL} {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
   }
 
   reverse_proxy ntfy:8000
 }
 
-uptime.example.com {
-  tls your@email.com {
+{$UPTIME_KUMA_DOMAIN} {
+  tls {$CLOUDFLARE_EMAIL} {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
   }
 

@@ -22,20 +22,20 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
     git clone git@github.com:jschwindt/uptime-kuma-caddy-ntfy-smtp.git
     cd uptime-kuma-caddy-ntfy-smtp
     ```
-2. Copy the `.env.example` file to `.env`, `Caddydile.example` to `Caddyfile`, and fill in the required values:
+2. Copy the `.env.example` file to `.env` and fill in the required values:
 
     ```bash
     cp .env.example .env
-    cp Caddyfile.example Caddyfile
     ```
-    The `Caddyfile` needs to be configured with your domain name and email address twice: once for the `uptime` service and once for the `ntfy` service.
-
-    The `.env` needs updates to the following variables:
+    The `.env` file needs updates to the following variables:
 
     | Variable | Description |
     | --- | --- |
-    | `NTFY_BASE_URL` | Your domain name for the `ntfy` service. |
-    | `CLOUDFLARE_API_TOKEN` | The token for Caddy to handle DNS changes. Get it [here](https://dash.cloudflare.com/profile/api-tokens) with `DNS:Edit` permissions. |
+    | `UPTIME_KUMA_DOMAIN` | Your domain name for the `uptime` service. |
+    | `NTFY_DOMAIN` | Your domain name for the `ntfy` service. |
+    | `NTFY_BASE_URL` | Same as `NTFY_DOMAIN` but as a https url. |
+    | `CLOUDFLARE_EMAIL` | Your Cloudflare account email. |
+    | `CLOUDFLARE_API_TOKEN` | The token for Caddy to handle DNS changes in Cloudflare. Get it [here](https://dash.cloudflare.com/profile/api-tokens) with `DNS:Edit` permissions. |
     | `RELAY_xxxx` | The config for your SMTP service provider account. The example given is for the Sendgrid service. |
 
 3. Start the containers:
