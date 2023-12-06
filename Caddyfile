@@ -12,7 +12,7 @@
   reverse_proxy ntfy:8000
 }
 
-{$UPTIME_KUMA_URL} {
+{$KUMA_BASE_URL} {
   import common_directives
 
   reverse_proxy kuma:3001
