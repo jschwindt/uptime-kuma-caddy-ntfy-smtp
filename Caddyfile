@@ -1,15 +1,19 @@
-{$NTFY_DOMAIN} {
+(common_directives) {
   tls {$CLOUDFLARE_EMAIL} {
     dns cloudflare {env.CLOUDFLARE_API_TOKEN}
   }
+
+  encode gzip
+}
+
+{$NTFY_BASE_URL} {
+  import common_directives
 
   reverse_proxy ntfy:8000
 }
 
-{$UPTIME_KUMA_DOMAIN} {
-  tls {$CLOUDFLARE_EMAIL} {
-    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-  }
+{$UPTIME_KUMA_URL} {
+  import common_directives
 
   reverse_proxy kuma:3001
 }

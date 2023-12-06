@@ -31,9 +31,8 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
 
     | Variable | Description |
     | --- | --- |
-    | `UPTIME_KUMA_DOMAIN` | Your domain name for the `uptime` service. |
-    | `NTFY_DOMAIN` | Your domain name for the `ntfy` service. |
-    | `NTFY_BASE_URL` | Same as `NTFY_DOMAIN` but as a https url. |
+    | `UPTIME_KUMA_URL` | Your https base url for the `uptime` service. |
+    | `NTFY_BASE_URL` | Your https base url for the `ntfy` service. |
     | `CLOUDFLARE_EMAIL` | Your Cloudflare account email. |
     | `CLOUDFLARE_API_TOKEN` | The token for Caddy to handle DNS changes in Cloudflare. Get it [here](https://dash.cloudflare.com/profile/api-tokens) with `DNS:Edit` permissions. |
     | `RELAY_xxxx` | The config for your SMTP service provider account. The example given is for the Sendgrid service. |
