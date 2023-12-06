@@ -9,21 +9,42 @@ x-server-tune: &server-tune
     nofile: 500000
 
 services:
-  kuma:
+  caddy:
+    container_name: caddy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      - ACME_AGREE=true
+    env_file:
+      - .env
+    depends_on:
+      - kuma
+      - ntfy
     <<: *server-tune
+
+  kuma:
     container_name: kuma
     image: louislam/uptime-kuma
-    networks:
-      - uptime-net
     volumes:
       - "./data/uptime-kuma:/app/data"
     expose:
       - "3001"
+    <<: *server-tune
 
   ntfy:
-    <<: *server-tune
-    image: binwiederhier/ntfy
     container_name: ntfy
+    image: binwiederhier/ntfy
+    volumes:
+      - ./data/ntfy:/var/lib/ntfy
     command:
       - serve
     environment:
@@ -37,48 +58,19 @@ services:
       - NTFY_UPSTREAM_BASE_URL=https://ntfy.sh
     env_file:
       - .env
-    volumes:
-      - ./data/ntfy:/var/lib/ntfy
-    networks:
-      - uptime-net
-    ports:
-      - 8000:8000
-
-  caddy:
+    expose:
+      - "8000"
     <<: *server-tune
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: caddy
-    networks:
-      - uptime-net
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    environment:
-      - ACME_AGREE=true
-    env_file:
-      - .env
 
   smtp:
-    image: bytemark/smtp
     container_name: smtp
-    restart: unless-stopped
-    networks:
-      - uptime-net
-    ports:
-      - 25:25
+    image: bytemark/smtp
+    expose:
+      - 25
     env_file:
       - .env
+    restart: unless-stopped
 
 volumes:
   caddy_data:
   caddy_config:
-
-networks:
-  uptime-net:
