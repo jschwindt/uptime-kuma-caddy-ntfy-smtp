@@ -57,4 +57,9 @@ It also includes [Ntfy](https://github.com/binwiederhier/ntfy) for push notifica
     ```
     With those credentials, you can log in to the `ntfy` web interface at `https://ntfy.yourdomain.com/` and create a new notification channel and an API key to use later in the `uptime` configuration.
 
-5. Finally go to the `uptime` web interface at `https://uptime.yourdomain.com/`, create a new user and start adding monitors.
+5. Finally go to the `uptime` web interface at `https://uptime.yourdomain.com/`, create a new user and start adding monitors. Use the following settings for the notification channels:
+
+    | Notification Type | Settings |
+    | --- | --- |
+    | Email (SMTP) | Hostname: `smtp`, Port: `25`, Security: `None / STARTTLS (25, 587)` |
+    | Ntfy | Server URL: `https://ntfy.example.com` (the same in .env), Authentication Method: `Username and Password` or `Access Token`|
