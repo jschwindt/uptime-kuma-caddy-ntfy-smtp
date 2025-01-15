@@ -1,5 +1,3 @@
-version: "3.9"
-
 x-server-tune: &server-tune
   restart: unless-stopped
   sysctls:
@@ -10,10 +8,7 @@ x-server-tune: &server-tune
 
 services:
   caddy:
-    container_name: caddy
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: slothcroissant/caddy-cloudflaredns:latest
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
@@ -33,7 +28,7 @@ services:
 
   kuma:
     container_name: kuma
-    image: louislam/uptime-kuma
+    image: louislam/uptime-kuma:beta
     volumes:
       - "./data/uptime-kuma:/app/data"
     expose:
